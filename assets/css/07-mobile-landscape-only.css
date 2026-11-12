@@ -388,3 +388,91 @@
     animation: none !important;
   }
 }
+
+
+/* ==========================================
+   RADICAL RUSH - PLAY BUTTON CENTER FIX
+   MOBILE LANDSCAPE ONLY
+   ========================================== */
+
+@media (orientation: landscape)
+  and (hover: none)
+  and (pointer: coarse)
+  and (max-width: 1100px)
+  and (max-height: 600px) {
+
+  /* Keep the button inside its menu column */
+  #menuScreen .rr-menu-cta {
+    width: 100% !important;
+    min-width: 0 !important;
+    justify-items: stretch !important;
+  }
+
+  /* Center the Play button contents */
+  #menuScreen #playBtn {
+    display: grid !important;
+
+    grid-template-columns:
+      36px minmax(0, 1fr) 36px !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+
+    margin: 0 auto !important;
+    padding: 10px 12px !important;
+    gap: 8px !important;
+
+    box-sizing: border-box !important;
+    text-align: center !important;
+  }
+
+  /* Center the Play icon inside its square */
+  #menuScreen #playBtn > .rr-cta-play {
+    display: grid !important;
+    place-items: center !important;
+
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+    flex: none !important;
+
+    font-size: 18px !important;
+    line-height: 1 !important;
+    text-indent: 2px !important;
+  }
+
+  /* Perfectly center the title and subtitle */
+  #menuScreen #playBtn > span:nth-child(2) {
+    display: block !important;
+    flex: none !important;
+
+    width: 100% !important;
+    min-width: 0 !important;
+
+    text-align: center !important;
+    justify-self: center !important;
+    white-space: normal !important;
+    line-height: 1.25 !important;
+  }
+
+  /* Reserve equal space on the right */
+  #menuScreen #playBtn > .rr-cta-arrow {
+    display: block !important;
+    visibility: hidden !important;
+
+    width: 36px !important;
+    height: 36px !important;
+    flex: none !important;
+
+    margin: 0 !important;
+  }
+}
+
+
