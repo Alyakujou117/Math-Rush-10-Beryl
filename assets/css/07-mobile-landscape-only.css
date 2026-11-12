@@ -1,0 +1,76 @@
+/* Radical Rush: MOBILE LANDSCAPE GAMEPLAY ONLY.
+   This rule is deliberately limited to touch-based landscape devices.
+   Laptop/desktop and phone portrait layouts are untouched. */
+@media (orientation: landscape) and (hover: none) and (pointer: coarse)
+       and (min-width: 761px) and (max-width: 1100px) and (max-height: 600px) {
+  html body.in-game {
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    overflow: hidden !important;
+  }
+  html body.in-game .app {
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    max-height: 100dvh !important;
+    overflow: hidden !important;
+  }
+  html body.in-game .app > main,
+  html body.in-game #gameScreen {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 1 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: hidden !important;
+  }
+  html body.in-game #gameScreen .game-layout {
+    display: grid !important;
+    grid-template-columns: minmax(0, 53fr) minmax(0, 47fr) !important;
+    grid-template-rows: minmax(0, 1fr) !important;
+    flex: 1 1 0 !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: 100% !important;
+    overflow: hidden !important;
+    gap: 6px !important;
+    align-items: stretch !important;
+  }
+  html body.in-game #gameScreen .game-layout > .board-card {
+    width: auto !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+    flex: 0 1 auto !important;
+  }
+  html body.in-game #gameScreen .game-layout > .board-card #board {
+    width: calc(100% - 4px) !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    aspect-ratio: 10 / var(--board-rows, 10) !important;
+    flex: 0 0 auto !important;
+    margin-inline: auto !important;
+  }
+  html body.in-game #gameScreen #rrGameSidebar {
+    display: flex !important;
+    flex-direction: column !important;
+    width: auto !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+}

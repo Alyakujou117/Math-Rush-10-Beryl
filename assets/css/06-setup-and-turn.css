@@ -1,0 +1,307 @@
+/* Radical Rush | organized crew setup + longer player turn reveal.
+   Scoped to setupScreen / turnSpotlight to avoid altering the game board, wheel or gameplay. */
+#setupScreen { max-width: 1540px; margin-inline: auto; }
+#setupScreen .screen-title { gap: 18px; align-items: center; }
+#setupScreen .setup-grid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(265px, 310px) !important;
+  align-items: start !important;
+  gap: clamp(14px, 2vw, 22px) !important;
+}
+#setupScreen .setup-main,
+#setupScreen .setup-aside { min-width: 0 !important; box-sizing: border-box; }
+#setupScreen .setup-main { padding: clamp(16px, 2.3vw, 26px) !important; }
+#setupScreen .setup-aside {
+  padding: clamp(18px, 2vw, 25px) !important;
+  position: sticky !important;
+  top: 16px;
+  align-self: start;
+}
+#setupScreen .setup-options { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+#setupScreen .game-length-field { margin-block: 12px; }
+#setupScreen .map-picker { margin-block: 15px 20px; }
+#setupScreen .map-theme-grid { gap: 10px !important; }
+#setupScreen .rr-crew-divider { margin-block: 22px 16px; gap: 10px; flex-wrap: wrap; }
+#setupScreen .rr-crew-divider small { white-space: normal !important; text-align: right; }
+#setupScreen .player-list {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 16px !important;
+  align-items: stretch;
+}
+#setupScreen .player-editor {
+  display: grid !important;
+  grid-template-columns: 76px minmax(0, 1fr) !important;
+  grid-template-rows: min-content auto auto auto auto !important;
+  column-gap: 13px !important;
+  row-gap: 12px !important;
+  align-content: start !important;
+  height: 100%;
+  min-width: 0 !important;
+  padding: clamp(13px, 1.45vw, 19px) !important;
+  border-radius: 18px !important;
+  background: linear-gradient(150deg,#203a5d,#172b49) !important;
+  border: 1px solid rgba(142,203,240,.48) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.08), 0 8px 18px rgba(0,8,27,.14);
+}
+#setupScreen .player-editor .editor-stack { display: contents !important; }
+#setupScreen .player-editor > .portrait {
+  grid-column: 1 !important;
+  grid-row: 1 / span 2 !important;
+  width: 76px !important;
+  height: 89px !important;
+  aspect-ratio: auto !important;
+  align-self: start;
+  margin: 0 !important;
+  overflow: hidden;
+  border-radius: 15px !important;
+}
+#setupScreen .player-editor .editor-name {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  align-self: end;
+  font-size: 13px !important;
+  letter-spacing: .08em;
+  color: #ffdf9b;
+}
+#setupScreen .player-editor .field.compact:has(input) {
+  grid-column: 2 !important;
+  grid-row: 2 !important;
+  margin: 0 !important;
+  min-width: 0;
+}
+#setupScreen .player-editor .field.compact:has(input) input {
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 42px !important;
+  box-sizing: border-box;
+}
+/* The original select is retained in the DOM for the picker and game logic. */
+#setupScreen .player-editor .field.compact:has(select[aria-label$=" character"]) {
+  grid-column: 1 / -1 !important;
+  grid-row: 3 !important;
+  display: none !important;
+}
+#setupScreen .player-editor .rr-face-picker {
+  grid-column: 1 / -1 !important;
+  grid-row: 3 !important;
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: clamp(5px, .75vw, 9px) !important;
+  min-width: 0 !important;
+  margin: 2px 0 0 !important;
+}
+#setupScreen .rr-face-choice {
+  min-width: 0 !important;
+  width: 100% !important;
+  padding: 7px 3px 6px !important;
+  border-radius: 13px !important;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  overflow: hidden;
+  box-sizing: border-box;
+  min-height: 87px;
+}
+#setupScreen .rr-face-choice .rr-face-art {
+  width: min(100%, 66px) !important;
+  height: auto !important;
+  aspect-ratio: 1 !important;
+  flex: none !important;
+}
+#setupScreen .rr-face-choice .rr-face-image,
+#setupScreen .rr-face-choice .rr-face-motion { max-width: 100% !important; }
+#setupScreen .rr-face-choice .rr-face-label {
+  font-size: clamp(10px, .83vw, 12px) !important;
+  line-height: 1.12 !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+#setupScreen .player-editor .options-line {
+  grid-column: 1 / -1 !important;
+  grid-row: 4 !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 7px !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+#setupScreen .player-editor .color-dot.rr-color-choice {
+  width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 7px 5px !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  white-space: nowrap;
+  min-height: 35px;
+  border-radius: 11px !important;
+}
+#setupScreen .player-editor .rr-color-name {
+  font-size: 10px !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#setupScreen .player-editor > .rr-character-skills {
+  grid-column: 1 / -1 !important;
+  grid-row: 5 !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 9px !important;
+  margin: 2px 0 0 !important;
+  align-self: stretch;
+}
+#setupScreen .rr-character-skills .rr-skill-summary {
+  width: 100% !important;
+  min-width: 0 !important;
+  padding: 12px !important;
+  border-radius: 12px !important;
+  overflow-wrap: anywhere;
+  box-sizing: border-box;
+}
+#setupScreen .rr-character-skills .rr-skill-summary strong { display: block; margin-block: 5px; line-height: 1.2; }
+#setupScreen .rr-character-skills .rr-skill-summary p { font-size: 11.5px; line-height: 1.5; margin: 5px 0 0; }
+#setupScreen .rr-character-skills .rr-skill-type { font-size: 10px; line-height: 1.35; }
+#setupScreen .setup-aside .feature-list { gap: 15px; }
+#setupScreen .setup-aside .feature { align-items: start; gap: 12px; }
+#setupScreen .setup-aside .setup-start { width: 100%; margin-top: 25px; }
+#setupScreen .player-editor .rr-face-choice:focus-visible,
+#setupScreen .color-dot:focus-visible { outline: 3px solid #ffe19a !important; outline-offset: 2px; }
+/* Narrow laptops: player cards can be full-width instead of squeezed side by side. */
+@media (min-width: 761px) and (max-width: 1150px) {
+  #setupScreen .setup-grid { grid-template-columns: minmax(0, 1fr) minmax(235px, 275px) !important; }
+  #setupScreen .player-list { grid-template-columns: 1fr !important; }
+}
+@media (max-width: 760px) {
+  #setupScreen .setup-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+  }
+  #setupScreen .setup-grid > * { width: 100% !important; min-width: 0 !important; }
+  #setupScreen .setup-aside { position: static !important; }
+  #setupScreen .setup-main { padding: 15px !important; }
+  #setupScreen .player-list { grid-template-columns: 1fr !important; gap: 14px !important; }
+  #setupScreen .player-editor {
+    grid-template-columns: 70px minmax(0, 1fr) !important;
+    padding: 13px !important;
+    column-gap: 12px !important;
+    row-gap: 12px !important;
+  }
+  #setupScreen .player-editor > .portrait { width: 70px !important; height: 82px !important; }
+  #setupScreen .rr-face-choice { min-height: 78px; padding: 6px 2px 5px !important; }
+  #setupScreen .rr-face-choice .rr-face-art { width: min(100%, 57px) !important; }
+  #setupScreen .rr-face-choice .rr-face-label { font-size: 10px !important; }
+  #setupScreen .player-editor .options-line { grid-template-columns: repeat(4,minmax(0,1fr)) !important; }
+  #setupScreen .rr-character-skills .rr-skill-summary { padding: 10px !important; }
+  #setupScreen .rr-character-skills .rr-skill-summary p { font-size: 11px !important; }
+  #setupScreen .setup-start { min-height: 54px; }
+}
+@media (max-width: 355px) {
+  #setupScreen .player-editor .rr-face-picker { gap: 3px !important; }
+  #setupScreen .rr-face-choice { min-height: 70px; }
+  #setupScreen .rr-face-choice .rr-face-art { width: min(100%, 48px) !important; }
+  #setupScreen .rr-face-choice .rr-face-label { font-size: 9px !important; }
+  #setupScreen .player-editor .rr-character-skills { grid-template-columns: 1fr !important; }
+  #setupScreen .player-editor .rr-character-skills .rr-skill-summary { min-height: 0; }
+  #setupScreen .player-editor .rr-color-name { font-size: 9px !important; }
+}
+/* Longer, clearer turn announcement: does not intercept clicks. */
+#turnSpotlight.turn-spotlight {
+  pointer-events: none !important;
+  background: radial-gradient(ellipse at 50% 48%, rgba(var(--active-rgb),.42), rgba(5,11,32,.81) 80%) !important;
+  animation: rrTurnSceneEnter .45s ease-out both !important;
+  overflow: hidden;
+}
+#turnSpotlight .turn-spotlight-card {
+  transform-origin: center;
+  animation: rrTurnHeroEntrance .7s cubic-bezier(.18,1.15,.26,1) both !important;
+  box-shadow: 0 24px 85px rgba(1,6,23,.67),0 0 0 8px rgba(255,255,255,.08),0 0 95px rgba(var(--active-rgb),.4) !important;
+}
+#turnSpotlight .turn-spotlight-card::before {
+  content:'';
+  position:absolute;
+  inset: -22%;
+  border: 2px dashed rgba(255,255,255,.19);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: rrTurnHalo 3s linear infinite;
+  z-index: -1;
+}
+#turnSpotlight .spotlight-avatar {
+  animation: rrTurnAvatarFloat 1.7s .58s ease-in-out infinite alternate;
+  filter: drop-shadow(0 5px 13px rgba(0,0,0,.23));
+}
+#turnSpotlight .spotlight-info span { animation: rrTurnTextIn .55s .18s both; }
+#turnSpotlight .spotlight-info strong { animation: rrTurnTextIn .63s .3s both; }
+#turnSpotlight .rr-turn-stars { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+#turnSpotlight .rr-turn-stars i {
+  position:absolute;
+  width: 9px;
+  height: 9px;
+  background: #ffe8a8;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px #ffe9ac20,0 0 16px #ffe9ac;
+  animation: rrTurnStar 1.7s ease-in-out infinite alternate;
+}
+#turnSpotlight .rr-turn-stars i:nth-child(1) { left:14%; top:26%; animation-delay: .15s; }
+#turnSpotlight .rr-turn-stars i:nth-child(2) { left:82%; top:20%; animation-delay: .44s; width:6px;height:6px; }
+#turnSpotlight .rr-turn-stars i:nth-child(3) { left:72%; top:78%; animation-delay: .82s; }
+#turnSpotlight .rr-turn-stars i:nth-child(4) { left:23%; top:79%; animation-delay: 1s; width:5px;height:5px; }
+#turnSpotlight .rr-turn-duration {
+  position:absolute;
+  left:22px;right:22px;bottom:12px;height:4px;
+  border-radius:100px;background:rgba(255,255,255,.2);overflow:hidden;
+}
+#turnSpotlight .rr-turn-duration::after {
+  content:'';display:block;width:100%;height:100%;border-radius:inherit;
+  background:#ffe4a6;transform-origin:left center;
+  animation: rrTurnProgress 2.76s linear .35s forwards;
+}
+#turnSpotlight.turn-spotlight.exit { animation: rrTurnSceneExit .43s ease-in both !important; }
+#turnSpotlight.exit .turn-spotlight-card { animation: rrTurnHeroExit .43s ease-in both !important; }
+@keyframes rrTurnSceneEnter { from{opacity:0;}to{opacity:1;} }
+@keyframes rrTurnSceneExit { from{opacity:1;}to{opacity:0;} }
+@keyframes rrTurnHeroEntrance {0%{opacity:0;transform:translateY(46px) scale(.72) rotate(-5deg);}68%{opacity:1;transform:translateY(-7px) scale(1.045) rotate(1deg);}100%{opacity:1;transform:translateY(0) scale(1) rotate(0);} }
+@keyframes rrTurnHeroExit {to{opacity:0;transform:translateY(-23px) scale(.91);} }
+@keyframes rrTurnAvatarFloat {from{transform:translateY(0) rotate(-3deg);}to{transform:translateY(-7px) rotate(3deg);} }
+@keyframes rrTurnTextIn {from{opacity:0;transform:translateX(18px);}to{opacity:1;transform:translateX(0);} }
+@keyframes rrTurnHalo {to{transform:rotate(360deg);} }
+@keyframes rrTurnStar {from{opacity:.25;transform:scale(.6);}to{opacity:1;transform:scale(1.45);} }
+@keyframes rrTurnProgress {to{transform:scaleX(0);} }
+@media (prefers-reduced-motion: reduce) {
+  #turnSpotlight.turn-spotlight:not(.exit),
+  #turnSpotlight .turn-spotlight-card,
+  #turnSpotlight .turn-spotlight-card::before,
+  #turnSpotlight .spotlight-avatar,
+  #turnSpotlight .spotlight-info span,
+  #turnSpotlight .spotlight-info strong,
+  #turnSpotlight .rr-turn-stars i,
+  #turnSpotlight .rr-turn-duration::after { animation:none !important; }
+  #turnSpotlight.turn-spotlight.exit {opacity:0 !important;}
+}
+#turnSpotlight.rr-turn-static:not(.exit),
+#turnSpotlight.rr-turn-static .turn-spotlight-card,
+#turnSpotlight.rr-turn-static .spotlight-avatar,
+#turnSpotlight.rr-turn-static .spotlight-info span,
+#turnSpotlight.rr-turn-static .spotlight-info strong,
+#turnSpotlight.rr-turn-static .rr-turn-stars i,
+#turnSpotlight.rr-turn-static .rr-turn-duration::after { animation:none !important; }
+#turnSpotlight.rr-turn-static.exit { opacity:0 !important; }
+
+/* Character selection portraits: stationary first frame (not a walking loop).
+   Visual-only, scoped to the setup picker; gameplay walking/falling/portal
+   sprite animations and the animated Player's Turn overlay are untouched. */
+#setupScreen .rr-face-picker .rr-face-motion {
+  animation: none !important;
+  background-position: 0% 0% !important;
+  transform: none !important;
+}
